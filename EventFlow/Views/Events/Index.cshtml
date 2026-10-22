@@ -6,6 +6,12 @@
 
 <h1>Events</h1>
 
+<p>
+    <a asp-action="Create" class="btn btn-primary">
+        Create Event
+    </a>
+</p>
+
 @if (!Model.Any())
 {
     <p>No events have been created yet.</p>
@@ -23,6 +29,7 @@ else
                 <th></th>
             </tr>
         </thead>
+
 
         <tbody>
             @foreach (var eventItem in Model)

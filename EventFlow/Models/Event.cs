@@ -19,11 +19,11 @@ namespace EventFlow.Models
 
         public Guid CategoryId { get; set; }
 
-        public Category Category { get; set; } = null!;
+        public Category? Category { get; set; }
 
         public Guid VenueId { get; set; }
 
-        public Venue Venue { get; set; } = null!;
+        public Venue? Venue { get; set; }
 
         public ICollection<Rsvp> Rsvps { get; set; }
             = new List<Rsvp>();
