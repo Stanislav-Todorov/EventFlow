@@ -95,5 +95,126 @@ namespace EventFlow.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var eventItem = await _context.Events.FindAsync(id);
+
+            if (eventItem == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.Categories = new SelectList(
+                _context.Categories.OrderBy(c => c.Name),
+                "Id",
+                "Name",
+                eventItem.CategoryId);
+
+            ViewBag.Venues = new SelectList(
+                _context.Venues.OrderBy(v => v.Name),
+                "Id",
+                "Name",
+                eventItem.VenueId);
+
+            return View(eventItem);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Guid id, Event eventItem)
+        {
+            if (id != eventItem.Id)
+            {
+                return NotFound();
+            }
+
+            if (eventItem.EndDateTime <= eventItem.StartDateTime)
+            {
+                ModelState.AddModelError(
+                    nameof(eventItem.EndDateTime),
+                    "End date and time must be later than the start date and time.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Categories = new SelectList(
+                    _context.Categories.OrderBy(c => c.Name),
+                    "Id",
+                    "Name",
+                    eventItem.CategoryId);
+
+                ViewBag.Venues = new SelectList(
+                    _context.Venues.OrderBy(v => v.Name),
+                    "Id",
+                    "Name",
+                    eventItem.VenueId);
+
+                return View(eventItem);
+            }
+
+            try
+            {
+                _context.Events.Update(eventItem);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                var exists = await _context.Events.AnyAsync(e => e.Id == eventItem.Id);
+
+                if (!exists)
+                {
+                    return NotFound();
+                }
+
+                throw;
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var eventItem = await _context.Events
+                .Include(e => e.Category)
+                .Include(e => e.Venue)
+                .FirstOrDefaultAsync(e => e.Id == id);
+
+            if (eventItem == null)
+            {
+                return NotFound();
+            }
+
+            return View(eventItem);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            var eventItem = await _context.Events.FindAsync(id);
+
+            if (eventItem == null)
+            {
+                return NotFound();
+            }
+
+            _context.Events.Remove(eventItem);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

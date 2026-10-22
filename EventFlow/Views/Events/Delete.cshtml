@@ -1,0 +1,39 @@
+﻿@model EventFlow.Models.Event
+
+@{
+    ViewData["Title"] = "Delete Event";
+}
+
+<h1>Delete Event</h1>
+
+<div class="alert alert-warning">
+    Are you sure you want to delete this event?
+</div>
+
+<dl class="row">
+    <dt class="col-sm-3">Title</dt>
+    <dd class="col-sm-9">@Model.Title</dd>
+
+    <dt class="col-sm-3">Category</dt>
+    <dd class="col-sm-9">@Model.Category?.Name</dd>
+
+    <dt class="col-sm-3">Venue</dt>
+    <dd class="col-sm-9">@Model.Venue?.Name</dd>
+
+    <dt class="col-sm-3">Starts</dt>
+    <dd class="col-sm-9">
+        @Model.StartDateTime.ToString("dd MMMM yyyy HH:mm")
+    </dd>
+</dl>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-danger">
+        Delete
+    </button>
+
+    <a asp-action="Index" class="btn btn-secondary">
+        Cancel
+    </a>
+</form>
