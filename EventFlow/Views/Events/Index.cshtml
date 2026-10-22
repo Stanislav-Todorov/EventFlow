@@ -1,0 +1,46 @@
+﻿@model IEnumerable<EventFlow.Models.Event>
+
+@{
+    ViewData["Title"] = "Events";
+}
+
+<h1>Events</h1>
+
+@if (!Model.Any())
+{
+    <p>No events have been created yet.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Venue</th>
+                <th>Starts</th>
+                <th>Max Attendees</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var eventItem in Model)
+            {
+                <tr>
+                    <td>@eventItem.Title</td>
+                    <td>@eventItem.Category.Name</td>
+                    <td>@eventItem.Venue.Name</td>
+                    <td>@eventItem.StartDateTime.ToString("dd MMM yyyy HH:mm")</td>
+                    <td>@eventItem.MaxAttendees</td>
+                    <td>
+                        <a asp-action="Details"
+                           asp-route-id="@eventItem.Id">
+                            Details
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

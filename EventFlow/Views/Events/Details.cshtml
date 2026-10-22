@@ -1,0 +1,35 @@
+﻿@model EventFlow.Models.Event
+
+@{
+    ViewData["Title"] = "Event Details";
+}
+
+<h1>@Model.Title</h1>
+
+<dl class="row">
+    <dt class="col-sm-3">Category</dt>
+    <dd class="col-sm-9">@Model.Category.Name</dd>
+
+    <dt class="col-sm-3">Venue</dt>
+    <dd class="col-sm-9">@Model.Venue.Name</dd>
+
+    <dt class="col-sm-3">Address</dt>
+    <dd class="col-sm-9">
+        @Model.Venue.Address, @Model.Venue.City
+    </dd>
+
+    <dt class="col-sm-3">Starts</dt>
+    <dd class="col-sm-9">
+        @Model.StartDateTime.ToString("dd MMMM yyyy HH:mm")
+    </dd>
+
+    <dt class="col-sm-3">Ends</dt>
+    <dd class="col-sm-9">
+        @Model.EndDateTime.ToString("dd MMMM yyyy HH:mm")
+    </dd>
+
+    <dt class="col-sm-3">Maximum attendees</dt>
+    <dd class="col-sm-9">@Model.MaxAttendees</dd>
+</dl>
+
+<a asp-action="Index">Back to Events</a>
