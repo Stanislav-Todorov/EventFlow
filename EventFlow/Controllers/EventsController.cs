@@ -15,13 +15,72 @@ namespace EventFlow.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            string? searchString,
+            Guid? categoryId,
+            Guid? venueId,
+            string? eventStatus)
         {
-            var events = await _context.Events
+            var eventsQuery = _context.Events
                 .Include(e => e.Category)
                 .Include(e => e.Venue)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                eventsQuery = eventsQuery
+                    .Where(e => e.Title.Contains(searchString));
+            }
+
+            if (categoryId.HasValue)
+            {
+                eventsQuery = eventsQuery
+                    .Where(e => e.CategoryId == categoryId.Value);
+            }
+
+            if (venueId.HasValue)
+            {
+                eventsQuery = eventsQuery
+                    .Where(e => e.VenueId == venueId.Value);
+            }
+
+            if (eventStatus == "upcoming")
+            {
+                eventsQuery = eventsQuery
+                    .Where(e => e.StartDateTime >= DateTime.Now);
+            }
+            else if (eventStatus == "ongoing")
+            {
+                eventsQuery = eventsQuery
+                    .Where(e =>
+                        e.StartDateTime <= DateTime.Now &&
+                        e.EndDateTime >= DateTime.Now);
+            }
+            else if (eventStatus == "past")
+            {
+                eventsQuery = eventsQuery
+                    .Where(e => e.EndDateTime < DateTime.Now);
+            }
+
+            var events = await eventsQuery
                 .OrderBy(e => e.StartDateTime)
                 .ToListAsync();
+
+            ViewBag.SearchString = searchString;
+
+            ViewBag.Categories = new SelectList(
+                _context.Categories.OrderBy(c => c.Name),
+                "Id",
+                "Name",
+                categoryId);
+
+            ViewBag.Venues = new SelectList(
+                _context.Venues.OrderBy(v => v.Name),
+                "Id",
+                "Name",
+                venueId);
+
+            ViewBag.EventStatus = eventStatus;
 
             return View(events);
         }

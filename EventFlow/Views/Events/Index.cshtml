@@ -12,6 +12,68 @@
     </a>
 </p>
 
+<form asp-action="Index" method="get" class="row g-3 mb-4">
+
+    <div class="col-md-3">
+        <input type="text"
+               name="searchString"
+               value="@ViewBag.SearchString"
+               class="form-control"
+               placeholder="Search events..." />
+    </div>
+
+    <div class="col-md-3">
+        <select name="categoryId"
+                asp-items="ViewBag.Categories"
+                class="form-select">
+            <option value="">All categories</option>
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <select name="venueId"
+                asp-items="ViewBag.Venues"
+                class="form-select">
+            <option value="">All venues</option>
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <select name="eventStatus"
+                class="form-select">
+
+            <option value="">All events</option>
+
+            <option value="upcoming"
+                    selected="@(ViewBag.EventStatus == "upcoming")">
+                    Upcoming
+            </option>
+
+            <option value="ongoing"
+                    selected="@(ViewBag.EventStatus == "ongoing")">
+                    Ongoing
+            </option>
+
+            <option value="past"
+                    selected="@(ViewBag.EventStatus == "past")">
+                    Past
+            </option>
+
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary">
+            Filter
+        </button>
+
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            Clear
+        </a>
+    </div>
+
+</form>
+
 @if (!Model.Any())
 {
     <p>No events have been created yet.</p>
