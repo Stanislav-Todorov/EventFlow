@@ -6,7 +6,19 @@
 
 <h1>@Model.Title</h1>
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 <dl class="row">
+    <dt class="col-sm-3">Attendees</dt>
+    <dd class="col-sm-9">
+        @Model.Rsvps.Count / @Model.MaxAttendees
+    </dd>
+
     <dt class="col-sm-3">Category</dt>
     <dd class="col-sm-9">@Model.Category.Name</dd>
 
@@ -31,5 +43,27 @@
     <dt class="col-sm-3">Maximum attendees</dt>
     <dd class="col-sm-9">@Model.MaxAttendees</dd>
 </dl>
+
+@if (Model.EndDateTime < DateTime.Now)
+{
+    <div class="alert alert-secondary">
+        This event has ended.
+    </div>
+}
+else if (Model.Rsvps.Count >= Model.MaxAttendees)
+{
+    <div class="alert alert-warning">
+        This event is fully booked.
+    </div>
+}
+else
+{
+    <a asp-controller="Rsvps"
+       asp-action="Create"
+       asp-route-eventId="@Model.Id"
+       class="btn btn-success">
+        Register for Event
+    </a>
+}
 
 <a asp-action="Index">Back to Events</a>

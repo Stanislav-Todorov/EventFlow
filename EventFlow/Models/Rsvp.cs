@@ -19,6 +19,6 @@ namespace EventFlow.Models
 
         public Guid EventId { get; set; }
 
-        public Event Event { get; set; } = null!;
+        public Event? Event { get; set; }
     }
 }

@@ -95,6 +95,7 @@ namespace EventFlow.Controllers
             var eventItem = await _context.Events
                 .Include(e => e.Category)
                 .Include(e => e.Venue)
+                .Include(e => e.Rsvps)
                 .FirstOrDefaultAsync(e => e.Id == id);
 
             if (eventItem == null)
