@@ -108,5 +108,47 @@ namespace EventFlow.Controllers
                 "Events",
                 new { id = rsvp.EventId });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var rsvp = await _context.Rsvps
+                .Include(r => r.Event)
+                .FirstOrDefaultAsync(r => r.Id == id);
+
+            if (rsvp == null)
+            {
+                return NotFound();
+            }
+
+            return View(rsvp);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            var rsvp = await _context.Rsvps.FindAsync(id);
+
+            if (rsvp == null)
+            {
+                return NotFound();
+            }
+
+            var eventId = rsvp.EventId;
+
+            _context.Rsvps.Remove(rsvp);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(
+                "Details",
+                "Events",
+                new { id = eventId });
+        }
     }
 }

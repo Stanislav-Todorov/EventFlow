@@ -1,0 +1,42 @@
+﻿@model EventFlow.Models.Rsvp
+
+@{
+    ViewData["Title"] = "Remove RSVP";
+}
+
+<h1>Remove RSVP</h1>
+
+<div class="alert alert-warning">
+    Are you sure you want to remove this registration?
+</div>
+
+<dl class="row">
+    <dt class="col-sm-3">Name</dt>
+    <dd class="col-sm-9">@Model.GuestName</dd>
+
+    <dt class="col-sm-3">Email</dt>
+    <dd class="col-sm-9">@Model.GuestEmail</dd>
+
+    <dt class="col-sm-3">Event</dt>
+    <dd class="col-sm-9">@Model.Event?.Title</dd>
+
+    <dt class="col-sm-3">Registered On</dt>
+    <dd class="col-sm-9">
+        @Model.RegisteredOn.ToString("dd MMMM yyyy HH:mm")
+    </dd>
+</dl>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-danger">
+        Remove RSVP
+    </button>
+
+    <a asp-controller="Events"
+       asp-action="Details"
+       asp-route-id="@Model.EventId"
+       class="btn btn-secondary">
+        Cancel
+    </a>
+</form>

@@ -69,4 +69,45 @@ else
     </a>
 }
 
+<hr />
+
+<h2>Attendees</h2>
+
+@if (!Model.Rsvps.Any())
+{
+    <p>No one has registered for this event yet.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Registered On</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var rsvp in Model.Rsvps.OrderBy(r => r.RegisteredOn))
+            {
+                <tr>
+                    <td>@rsvp.GuestName</td>
+                    <td>@rsvp.GuestEmail</td>
+                    <td>@rsvp.RegisteredOn.ToString("dd MMM yyyy HH:mm")</td>
+                    <td>
+                        <a asp-controller="Rsvps"
+                           asp-action="Delete"
+                           asp-route-id="@rsvp.Id"
+                           class="btn btn-sm btn-outline-danger">
+                            Remove
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
 <a asp-action="Index">Back to Events</a>
