@@ -6,6 +6,9 @@
 
 <h1>@Model.Title</h1>
 
+<partial name="_EventStatusPartial"
+         model="Model" />
+
 @if (TempData["ErrorMessage"] != null)
 {
     <div class="alert alert-danger">

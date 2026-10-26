@@ -88,6 +88,8 @@ else
                 <th>Venue</th>
                 <th>Starts</th>
                 <th>Max Attendees</th>
+                <th>Attendees</th>
+                <th>Status</th>
                 <th></th>
             </tr>
         </thead>
@@ -117,6 +119,14 @@ else
                            class="btn btn-sm btn-outline-danger">
                             Delete
                         </a>
+                    </td>
+                    <td>
+                        @eventItem.Rsvps.Count / @eventItem.MaxAttendees
+                    </td>
+
+                    <td>
+                        <partial name="_EventStatusPartial"
+                                 model="eventItem" />
                     </td>
                 </tr>
             }

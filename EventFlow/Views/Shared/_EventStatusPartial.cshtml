@@ -1,0 +1,30 @@
+﻿@model EventFlow.Models.Event
+
+@{
+    var now = DateTime.Now;
+}
+
+@if (Model.EndDateTime < now)
+{
+    <span class="badge bg-secondary">
+        Past
+    </span>
+}
+else if (Model.StartDateTime <= now && Model.EndDateTime >= now)
+{
+    <span class="badge bg-success">
+        Ongoing
+    </span>
+}
+else if (Model.Rsvps.Count >= Model.MaxAttendees)
+{
+    <span class="badge bg-danger">
+        Full
+    </span>
+}
+else
+{
+    <span class="badge bg-primary">
+        Upcoming
+    </span>
+}

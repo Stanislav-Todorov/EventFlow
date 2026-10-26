@@ -24,6 +24,7 @@ namespace EventFlow.Controllers
             var eventsQuery = _context.Events
                 .Include(e => e.Category)
                 .Include(e => e.Venue)
+                .Include(e => e.Rsvps)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(searchString))
