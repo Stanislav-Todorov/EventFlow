@@ -2,7 +2,73 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center py-5">
+    <h1 class="display-4 fw-bold">
+        Plan. Discover. Attend.
+    </h1>
+
+    <p class="lead mt-3">
+        EventFlow helps you organize events, manage venues,
+        track attendance, and keep everything in one place.
+    </p>
+
+    <div class="mt-4">
+        <a asp-controller="Events"
+           asp-action="Index"
+           class="btn btn-primary btn-lg me-2">
+            Browse Events
+        </a>
+
+        <a asp-controller="Events"
+           asp-action="Create"
+           class="btn btn-outline-primary btn-lg">
+            Create Event
+        </a>
+    </div>
+</div>
+
+<div class="row g-4 mt-4">
+
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">
+                    Manage Events
+                </h5>
+
+                <p class="card-text">
+                    Create, edit, organize, and track upcoming events.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">
+                    Track Attendance
+                </h5>
+
+                <p class="card-text">
+                    Manage registrations and monitor available event capacity.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">
+                    Find Events Quickly
+                </h5>
+
+                <p class="card-text">
+                    Search and filter by category, venue, and event status.
+                </p>
+            </div>
+        </div>
+    </div>
+
 </div>
