@@ -76,60 +76,19 @@
 
 @if (!Model.Any())
 {
-    <p>No events have been created yet.</p>
+    <div class="alert alert-info">
+        No events match your current filters.
+    </div>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Category</th>
-                <th>Venue</th>
-                <th>Starts</th>
-                <th>Max Attendees</th>
-                <th>Attendees</th>
-                <th>Status</th>
-                <th></th>
-            </tr>
-        </thead>
-
-
-        <tbody>
-            @foreach (var eventItem in Model)
-            {
-                <tr>
-                    <td>@eventItem.Title</td>
-                    <td>@eventItem.Category.Name</td>
-                    <td>@eventItem.Venue.Name</td>
-                    <td>@eventItem.StartDateTime.ToString("dd MMM yyyy HH:mm")</td>
-                    <td>@eventItem.MaxAttendees</td>
-                    <td>
-                        <a asp-action="Details"
-                           asp-route-id="@eventItem.Id">
-                            Details
-                        </a>
-                        <a asp-action="Edit"
-                           asp-route-id="@eventItem.Id"
-                           class="btn btn-sm btn-outline-secondary">
-                            Edit
-                        </a>
-                        <a asp-action="Delete"
-                           asp-route-id="@eventItem.Id"
-                           class="btn btn-sm btn-outline-danger">
-                            Delete
-                        </a>
-                    </td>
-                    <td>
-                        @eventItem.Rsvps.Count / @eventItem.MaxAttendees
-                    </td>
-
-                    <td>
-                        <partial name="_EventStatusPartial"
-                                 model="eventItem" />
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="row g-4">
+        @foreach (var eventItem in Model)
+        {
+            <div class="col-md-6 col-lg-4">
+                <partial name="_EventCardPartial"
+                         model="eventItem" />
+            </div>
+        }
+    </div>
 }
