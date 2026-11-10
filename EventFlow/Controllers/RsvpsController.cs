@@ -123,7 +123,7 @@ namespace EventFlow.Controllers
 
             if (rsvp == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "Events");
             }
 
             return View(rsvp);
